@@ -94,27 +94,28 @@ will use the default Docker image tags for Aquarius, Keeper Contracts and Common
 
 ### All Options
 
-| Option                     | Description                                                                                     |
-| -------------------------- | ----------------------------------------------------------------------------------------------- |
-| `--latest`                 | Pull Docker images tagged with `latest`.                                                        |
-| `--no-commons`             | Start up Ocean without the `commons` Building Block. Helpful for development on `commons`.      |
-| `--no-aquarius`            | Start up Ocean without the `aquarius` Building Block.                                           |
-| `--no-brizo`               | Start up Ocean without the `brizo` Building Block.                                              |
-| `--no-events-handler`      | Start up Ocean without the `events-handler` Building Block.                                     |
-| `--no-secret-store`        | Start up Ocean without the `secret-store` Building Block.                                       |
-| `--no-faucet`              | Start up Ocean without the `faucet` Building Block.                                             |
-| `--no-acl-contract`        | Disables the configuration of secret store's ACL contract address                               |
-| `--no-dashboard`           | Start up Ocean without the `dashboard` Building Block.                                          |
-| `--mongodb`                | Start up Ocean with MongoDB as DB engine for Aquarius instead of Elasticsearch.                 |
-| `--local-ganache-node`     | Runs a local `ganache` node.                                                                    |
-| `--local-spree-node`       | Runs a node of the local `spree` network. This is the default.                                  |
-| `--local-duero-node`       | Runs a local parity node and connects the node to the `duero` network.                          |
-| `--local-nile-node`        | Runs a local parity node and connects the node to the `nile` network.                           |
-| `--local-pacific-node`     | Runs a local parity node and connects the node to the `pacific` network (official Ocean network |
-| `--reuse-ganache-database` | Configures a running `ganache` node to use a persistent database.                               |
-| `--force-pull`             | Force pulling the latest revision of the used Docker images.                                    |
-| `--purge`                  | Removes the Docker containers, volumes, artifact folder and networks used by the script.        |
-| `--exposeip`               | Binds the components to that specific ip. Exemple: ./start_ocean.sh --exposeip 192.168.0.1      |
+| Option                     | Description                                                                                         |
+| -------------------------- | --------------------------------------------------------------------------------------------------- |
+| `--latest`                 | Pull Docker images tagged with `latest`.                                                            |
+| `--no-commons`             | Start up Ocean without the `commons` Building Block. Helpful for development on `commons`.          |
+| `--no-aquarius`            | Start up Ocean without the `aquarius` Building Block.                                               |
+| `--no-brizo`               | Start up Ocean without the `brizo` Building Block.                                                  |
+| `--no-events-handler`      | Start up Ocean without the `events-handler` Building Block.                                         |
+| `--no-secret-store`        | Start up Ocean without the `secret-store` Building Block.                                           |
+| `--no-faucet`              | Start up Ocean without the `faucet` Building Block.                                                 |
+| `--no-acl-contract`        | Disables the configuration of secret store's ACL contract address                                   |
+| `--no-dashboard`           | Start up Ocean without the `dashboard` Building Block.                                              |
+| `--mongodb`                | Start up Ocean with MongoDB as DB engine for Aquarius instead of Elasticsearch.                     |
+| `--local-ganache-node`     | Runs a local `ganache` node.                                                                        |
+| `--local-spree-node`       | Runs a node of the local `spree` network. This is the default.                                      |
+| `--local-duero-node`       | Runs a local parity node and connects the node to the `duero` network.                              |
+| `--local-nile-node`        | Runs a local parity node and connects the node to the `nile` network.                               |
+| `--local-pacific-node`     | Runs a local parity node and connects the node to the `pacific` network (official Ocean network     |
+| `--reuse-ganache-database` | Configures a running `ganache` node to use a persistent database.                                   |
+| `--force-pull`             | Force pulling the latest revision of the used Docker images.                                        |
+| `--purge`                  | Removes the Docker containers, volumes, artifact folder and networks used by the script.            |
+| `--exposeip`               | Binds the components to that specific ip. Exemple: ./start_ocean.sh --exposeip 192.168.0.1          |
+| `--no-keeper-contracts`    | Start up Ocean without keeper-contracts. You need to manualy copy then to ${KEEPER_ARTIFACTS_FOLDER}|
 
 ## Docker Building Blocks
 
