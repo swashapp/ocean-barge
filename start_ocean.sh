@@ -276,6 +276,10 @@ while :; do
             COMPOSE_FILES="${COMPOSE_FILES/ -f ${COMPOSE_DIR}\/commons.yml/}"
             printf $COLOR_Y'Starting without Commons...\n\n'$COLOR_RESET
             ;;
+	--no-keeper-contracts)
+	    COMPOSE_FILES="${COMPOSE_FILES/ -f ${COMPOSE_DIR}\/keeper_contracts.yml/}"
+            printf $COLOR_Y'Starting without Keeper-Contracts...\n\n'$COLOR_RESET
+            ;;
         --no-events-handler)
             COMPOSE_FILES="${COMPOSE_FILES/ -f ${COMPOSE_DIR}\/events_handler.yml/}"
             printf $COLOR_Y'Starting without Events Handler...\n\n'$COLOR_RESET
