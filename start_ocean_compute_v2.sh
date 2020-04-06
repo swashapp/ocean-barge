@@ -1,5 +1,5 @@
 #!/usr/bin/env bash 
-# Copyright (c) 2019 Ocean Protocol contributors
+# Copyright (c) 2020 Ocean Protocol contributors
 # SPDX-License-Identifier: Apache-2.0
 # Linux or Mac OS X
 #
