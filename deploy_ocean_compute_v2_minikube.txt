@@ -22,7 +22,6 @@ yum install -y yum-utils   device-mapper-persistent-data   lvm2
 yum-config-manager     --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
 yum -y install docker-ce docker-ce-cli
 systemctl start docker --now && systemctl enable docker
-
 systemctl stop firewalld && systemctl disable firewalld
 
 = check if docker service is running:
