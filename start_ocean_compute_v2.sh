@@ -30,8 +30,6 @@ if [[ $PLATFORM == $LINUX ]]; then
   fi
 fi
 
-
-#MINIKUBE ="minikube"
 MINIKUBE_HOME="/usr/local/bin"
 MINIKUBE_CMD="$MINIKUBE_HOME/minikube start"
 K="sudo kubectl"
