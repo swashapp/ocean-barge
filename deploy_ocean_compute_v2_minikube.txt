@@ -1,0 +1,201 @@
+
+Prerequisites: Docker is running and files from step 2) are downloaded into ocean director
+
+1) Docker
+
+if it's not installed, use these steps:
+
+Ubuntu:
+
+sudo apt update -y
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" -y
+sudo apt update -y
+apt-cache policy docker-ce
+sudo apt install docker-ce -y
+sudo usermod -aG docker ${USER}
+
+Centos/RHEL/Fedora:
+
+yum install -y yum-utils   device-mapper-persistent-data   lvm2
+yum-config-manager     --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+yum -y install docker-ce docker-ce-cli
+systemctl start docker --now && systemctl enable docker
+
+systemctl stop firewalld && systemctl disable firewalld
+
+= check if docker service is running:
+
+ubuntu@ip-172-31-52-113:~$ sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+   Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+   Active: active (running) since Mon 2020-04-06 17:52:05 UTC; 1min 10s ago
+     Docs: https://docs.docker.com
+ Main PID: 3564 (dockerd)
+    Tasks: 10
+   CGroup: /system.slice/docker.service
+           └─3564 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+Apr 06 17:52:04 ip-172-31-52-113 dockerd[3564]: time="2020-04-06T17:52:04.750878049Z" level=warning msg="Your kernel does not support swap memory limit"
+Apr 06 17:52:04 ip-172-31-52-113 dockerd[3564]: time="2020-04-06T17:52:04.750917377Z" level=warning msg="Your kernel does not support cgroup rt period"
+Apr 06 17:52:04 ip-172-31-52-113 dockerd[3564]: time="2020-04-06T17:52:04.750925969Z" level=warning msg="Your kernel does not support cgroup rt runtime"
+Apr 06 17:52:04 ip-172-31-52-113 dockerd[3564]: time="2020-04-06T17:52:04.751286639Z" level=info msg="Loading containers: start."
+Apr 06 17:52:05 ip-172-31-52-113 dockerd[3564]: time="2020-04-06T17:52:05.023326080Z" level=info msg="Default bridge (docker0) is assigned with an IP address 172.17.0.0/16. Daemon option --bip can be used to set a preferred IP address"
+Apr 06 17:52:05 ip-172-31-52-113 dockerd[3564]: time="2020-04-06T17:52:05.227886337Z" level=info msg="Loading containers: done."
+Apr 06 17:52:05 ip-172-31-52-113 dockerd[3564]: time="2020-04-06T17:52:05.279265460Z" level=info msg="Docker daemon" commit=afacb8b7f0 graphdriver(s)=overlay2 version=19.03.8
+Apr 06 17:52:05 ip-172-31-52-113 dockerd[3564]: time="2020-04-06T17:52:05.279409893Z" level=info msg="Daemon has completed initialization"
+Apr 06 17:52:05 ip-172-31-52-113 dockerd[3564]: time="2020-04-06T17:52:05.344694358Z" level=info msg="API listen on /var/run/docker.sock"
+Apr 06 17:52:05 ip-172-31-52-113 systemd[1]: Started Docker Application Container Engine.
+ubuntu@ip-172-31-52-113:~$ 
+
+
+2) Download files from Github
+
+mkdir ocean; cd ocean
+git clone https://github.com/oceanprotocol/operator-service
+git clone https://github.com/oceanprotocol/operator-engine
+git clone https://github.com/oceanprotocol/pod-configuration
+git clone https://github.com/oceanprotocol/pod-publishing
+
+3) Deploy Ocean Compute locally on k8s cluster using minikube 
+
+ubuntu@ip-172-31-52-113:~$ ls -l
+total 12
+drwxrwxr-x 6 ubuntu ubuntu 4096 Apr  6 18:02 ocean
+-rwxrwxr-x 1 ubuntu ubuntu 6333 Apr  6 17:52 start_ocean_compute_v2.sh
+ubuntu@ip-172-31-52-113:~$ ./start_ocean_compute_v2.sh 
+Installing kubectl...
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu bionic InRelease
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]                      
+Hit:4 http://security.ubuntu.com/ubuntu bionic-security InRelease                                                  
+Hit:5 https://download.docker.com/linux/ubuntu bionic InRelease                                                    
+Fetched 163 kB in 0s (360 kB/s)                                                
+Reading package lists... Done
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+apt-transport-https is already the newest version (1.6.12).
+0 upgraded, 0 newly installed, 0 to remove and 72 not upgraded.
+OK
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu bionic InRelease
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]                                        
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]                                      
+Hit:4 https://download.docker.com/linux/ubuntu bionic InRelease                                                                             
+Hit:5 http://security.ubuntu.com/ubuntu bionic-security InRelease                                                                  
+Get:6 https://packages.cloud.google.com/apt kubernetes-xenial InRelease [8993 B]     
+Get:7 https://packages.cloud.google.com/apt kubernetes-xenial/main amd64 Packages [34.7 kB]
+Fetched 207 kB in 1s (366 kB/s)    
+Reading package lists... Done
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  conntrack kubectl socat
+0 upgraded, 3 newly installed, 0 to remove and 72 not upgraded.
+Need to get 9194 kB of archives.
+After this operation, 45.2 MB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu bionic/main amd64 conntrack amd64 1:1.4.4+snapshot20161117-6ubuntu2 [30.6 kB]
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu bionic/main amd64 socat amd64 1.7.3.2-2ubuntu2 [342 kB]
+Get:3 https://packages.cloud.google.com/apt kubernetes-xenial/main amd64 kubectl amd64 1.18.0-00 [8822 kB]
+Fetched 9194 kB in 0s (18.9 MB/s) 
+Selecting previously unselected package conntrack.
+(Reading database ... 56868 files and directories currently installed.)
+Preparing to unpack .../conntrack_1%3a1.4.4+snapshot20161117-6ubuntu2_amd64.deb ...
+Unpacking conntrack (1:1.4.4+snapshot20161117-6ubuntu2) ...
+Selecting previously unselected package kubectl.
+Preparing to unpack .../kubectl_1.18.0-00_amd64.deb ...
+Unpacking kubectl (1.18.0-00) ...
+Selecting previously unselected package socat.
+Preparing to unpack .../socat_1.7.3.2-2ubuntu2_amd64.deb ...
+Unpacking socat (1.7.3.2-2ubuntu2) ...
+Setting up conntrack (1:1.4.4+snapshot20161117-6ubuntu2) ...
+Setting up socat (1.7.3.2-2ubuntu2) ...
+Setting up kubectl (1.18.0-00) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+[OK]
+Installing minikube...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 52.1M  100 52.1M    0     0  37.7M      0  0:00:01  0:00:01 --:--:-- 37.7M
+Notice: minikube was successfully installed
+minikube will now try to start the local k8s cluster
+😄  minikube v1.9.2 on Ubuntu 18.04 (xen/amd64)
+✨  Using the none driver based on user configuration
+👍  Starting control plane node  in cluster minikube
+🤹  Running on localhost (CPUs=2, Memory=3943MB, Disk=7876MB) ...
+ℹ️  OS release is Ubuntu 18.04.3 LTS
+🐳  Preparing Kubernetes v1.18.0 on Docker 19.03.8 ...
+    ▪ kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+    > kubelet.sha256: 65 B / 65 B [--------------------------] 100.00% ? p/s 0s
+    > kubeadm.sha256: 65 B / 65 B [--------------------------] 100.00% ? p/s 0s
+    > kubectl.sha256: 65 B / 65 B [--------------------------] 100.00% ? p/s 0s
+    > kubeadm: 37.96 MiB / 37.96 MiB [---------------] 100.00% 32.89 MiB p/s 2s
+    > kubectl: 41.98 MiB / 41.98 MiB [---------------] 100.00% 30.30 MiB p/s 2s
+    > kubelet: 108.01 MiB / 108.01 MiB [-------------] 100.00% 50.77 MiB p/s 3s
+🌟  Enabling addons: default-storageclass, storage-provisioner
+🤹  Configuring local host environment ...
+
+❗  The 'none' driver is designed for experts who need to integrate with an existing VM
+💡  Most users should use the newer 'docker' driver instead, which does not require root!
+📘  For more information, see: https://minikube.sigs.k8s.io/docs/reference/drivers/none/
+
+❗  kubectl and minikube configuration will be stored in /home/ubuntu
+❗  To use kubectl or minikube commands as your own user, you may need to relocate them. For example, to overwrite your own settings, run:
+
+    ▪ sudo mv /home/ubuntu/.kube /home/ubuntu/.minikube $HOME
+    ▪ sudo chown -R $USER $HOME/.kube $HOME/.minikube
+
+💡  This can also be done automatically by setting the env var CHANGE_MINIKUBE_NONE_USER=true
+🏄  Done! kubectl is now configured to use "minikube"
+Starting Ocean Compute V2 deployment...
+namespace/ocean-operator created
+namespace/ocean-compute created
+configmap/postgres-config created
+persistentvolume/postgres-pv-volume created
+persistentvolumeclaim/postgres-pv-claim created
+deployment.apps/postgres created
+service/postgres created
+deployment.apps/operator-api created
+clusterrolebinding.rbac.authorization.k8s.io/operator-service created
+serviceaccount/operator-service created
+service/operator-api exposed
+serviceaccount/db-operator created
+clusterrolebinding.rbac.authorization.k8s.io/db-operator created
+deployment.apps/ocean-compute-operator created
+customresourcedefinition.apiextensions.k8s.io/computejobs.oceanprotocol.com created
+customresourcedefinition.apiextensions.k8s.io/workflows.oceanprotocol.com created
+configmap/postgres-config created
+deployment.apps/postgres condition met
+deployment.apps/operator-api condition met
+Forwarding connection to localhost port 8050
+Forwarding from 127.0.0.1:8050 -> 8050
+Forwarding from [::1]:8050 -> 8050
+Initialize the database...
+Handling connection for 8050
+Point your browser at: http://localhost:8050/api/v1/docs/
+
+
+=============================================================================================
+after deployment:
+=== check status for all pods ===
+ubuntu@ip-172-31-52-113:~$ sudo kubectl get pods -A
+NAMESPACE        NAME                                       READY   STATUS    RESTARTS   AGE
+kube-system      coredns-66bff467f8-96xt4                   1/1     Running   0          81s
+kube-system      coredns-66bff467f8-ptdgl                   1/1     Running   0          81s
+kube-system      etcd-ip-172-31-52-113                      1/1     Running   0          89s
+kube-system      kube-apiserver-ip-172-31-52-113            1/1     Running   0          89s
+kube-system      kube-controller-manager-ip-172-31-52-113   1/1     Running   0          89s
+kube-system      kube-proxy-5r94n                           1/1     Running   0          81s
+kube-system      kube-scheduler-ip-172-31-52-113            1/1     Running   0          89s
+kube-system      storage-provisioner                        1/1     Running   0          87s
+ocean-compute    ocean-compute-operator-84f774c989-7mzvr    1/1     Running   0          73s
+ocean-operator   operator-api-545b8c4c7-czjnl               1/1     Running   0          74s
+ocean-operator   postgres-7ffd788bc9-z5hpg                  1/1     Running   0          75s
+ubuntu@ip-172-31-52-113:~$ 
+
+
+
+
