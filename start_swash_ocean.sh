@@ -10,6 +10,7 @@ export EVENTS_RPC=''
 export ALLOWED_PUBLISHERS=''
 export BFACTORY_BLOCK=''
 export METADATA_CONTRACT_BLOCK=''
+export NETWORK_RPC_URL=''
 export PROVIDER_ADDRESS=''
 export PROVIDER_PASSWORD=''
 
@@ -20,4 +21,4 @@ git checkout ${CONTRACT_VERSION}
 
 cd ../..
 
-bash start_ocean.sh --no-ganache --no-dashboard --skip-deploy
+bash start_ocean.sh --no-ganache --no-dashboard --skip-deploy --exposeip 0.0.0.0
