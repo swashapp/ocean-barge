@@ -51,14 +51,14 @@ export NETWORK_RPC_URL="http://"${NETWORK_RPC_HOST}:${NETWORK_RPC_PORT}
 export GANACHE_MNEMONIC=${GANACHE_MNEMONIC:-"taxi music thumb unique chat sand crew more leg another off lamp"}
 
 # Ocean contracts
-export OCEAN_HOME="${HOME}/.ocean"
+export OCEAN_HOME=${OCEAN_HOME:-"${HOME}/.ocean"}
 export CONTRACTS_OWNER_ROLE_ADDRESS="${CONTRACTS_OWNER_ROLE_ADDRESS}"
 export DEPLOY_CONTRACTS=true
 export OCEAN_ARTIFACTS_FOLDER="${OCEAN_HOME}/ocean-contracts/artifacts"
 export ADDRESS_FILE="${OCEAN_ARTIFACTS_FOLDER}/address.json"
 echo "export ADDRESS_FILE=${ADDRESS_FILE}"
 # Specify which ethereum client to run or connect to: development
-export CONTRACTS_NETWORK_NAME="development"
+export CONTRACTS_NETWORK_NAME=${CONTRACTS_NETWORK_NAME:-development}
 
 # Default Aquarius parameters: use Elasticsearch
 export DB_MODULE="elasticsearch"

@@ -7,8 +7,6 @@ services:
     networks:
       backend:
         ipv4_address: 172.15.0.4
-    depends_on:
-    - ocean-contracts
     environment:
       ARTIFACTS_PATH: "/ocean-contracts/artifacts"
       NETWORK_URL: ${NETWORK_RPC_URL}
